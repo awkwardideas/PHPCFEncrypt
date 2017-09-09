@@ -2,10 +2,6 @@
 namespace AwkwardIdeas\PHPCFEncrypt;
 
 class Hex{
-    public function hexToBytes($string){
-
-    }
-
     public function bytesToHex($bytes){
         $result="";
 

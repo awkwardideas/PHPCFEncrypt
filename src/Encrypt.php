@@ -2,6 +2,7 @@
 namespace AwkwardIdeas\PHPCFEncrypt;
 
 use AwkwardIdeas\PHPCFEncrypt\Cryptor;
+use AwkwardIdeas\PHPCFEncrypt\Hex;
 use AwkwardIdeas\PHPCFEncrypt\Exception\InvalidCharacterEncodingException;
 use AwkwardIdeas\PHPCFEncrypt\Exception\InvalidEncryptionValException;
 use AwkwardIdeas\PHPCFEncrypt\Exception\UnhandledAlgorithmException;
@@ -28,7 +29,6 @@ class Encrypt{
 
     }
 
-
     public function binaryEncode($enc, $encoding){
         switch(strtolower($encoding)){
             case "hex":
@@ -54,61 +54,4 @@ class Encrypt{
             throw new UnhandledAlgorithmException();
         }
     }
-
-//    static byte[] encrypt(byte[] bytes, String key, String algorithm, byte[] prefix, int iter)
-//    {
-//        byte[] enc;
-//        byte[] enc;
-//        if (algorithm.equalsIgnoreCase("CFMX_COMPAT"))
-//        {
-//            Cryptor cryptor = new Cryptor();
-//            enc = cryptor.transformString(key, bytes);
-//        }
-//        else
-//            {
-//                try
-//                {
-//                    enc = processCipherWork(bytes, null, key, algorithm, 1, prefix, iter);
-//                }
-//                catch (NoSuchAlgorithmException nsae)
-//              {
-//                  if (algorithm.equalsIgnoreCase("DESede"))
-//                  {
-//
-//
-//
-//
-//
-//
-//                      registerSunCryptoProvider();
-//
-//                      try
-//                      {
-//                          enc = processCipherWork(bytes, null, key, algorithm, 1, prefix, iter);
-//                      }
-//                      catch (NoSuchAlgorithmException e)
-//                  {
-//                      throw new InvalidAlgorithmException(algorithm);
-//                  }
-//
-//                }
-//                  else
-//                  {
-//                      throw new InvalidAlgorithmException(algorithm);
-//                  }
-//              }
-//              catch (ExpressionException e)
-//              {
-//                  throw e;
-//              }
-//            }
-//        return enc;
-//    }
-
-//    private function CFMX_COMPAT($string, $key, $prefix, $iter){
-//        Cryptor $cryptor = new Cryptor();
-//        $enc = $cryptor.transformString($key, $bytes);
-//    }
-
-
 }
