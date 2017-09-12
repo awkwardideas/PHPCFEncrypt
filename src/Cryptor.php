@@ -42,7 +42,7 @@ class Cryptor{
         $Out_B = ($this->m_LFSR_B & 0x1);
         $Out_C = ($this->m_LFSR_C & 0x1);
 
-        $Target = $this->parse_byte($Target);
+        $Target = Byte::Parse($Target);
 
         for ($i = 0; $i < 8; $i++)
         {
@@ -75,19 +75,11 @@ class Cryptor{
                     $Out_C = 0;
                 }
             }
-            $Crypto = $this->parse_byte(($Crypto << 1 | $Out_B ^ $Out_C));
+            $Crypto = Byte::Parse(($Crypto << 1 | $Out_B ^ $Out_C));
         }
         $Target ^= $Crypto;
 
         return $Target;
-    }
-
-    private function parse_byte($value){
-        if($value < -118 || $value > 117){
-            $value = (($value+128) % 256) - 128;
-            return $value;
-        }
-        return $value;
     }
 
     private function setKey($Key)

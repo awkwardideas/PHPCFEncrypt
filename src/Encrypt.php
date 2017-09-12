@@ -29,6 +29,40 @@ class Encrypt{
 
     }
 
+    public function decrypt($string, $key, $algorithm, $encoding, $prefix=null, $iter=0){
+        $charset="UTF-8";
+
+        if(strlen($string)==0){
+            throw new InvalidEncryptionValException();
+        }
+
+        try {
+            iconv(mb_detect_encoding($string, mb_detect_order(), true), "UTF-8", $string);
+            $bytes = $this->binaryDecode($string, $encoding);
+
+            $bytes = $this->byteDecrypt($bytes, $key, $algorithm, $prefix, $iter);
+
+            return implode(array_map("chr", $bytes));
+        }
+        catch(Exception $e){
+            throw new InvalidCharacterEncodingException($e);
+        }
+
+    }
+
+    public function binaryDecode($string, $encoding){
+        switch(strtolower($encoding)){
+            case "hex":
+                $hex = new Hex();
+                return $hex->hexToBytes($string);
+                break;
+            case "base64":
+                return base64_decode($string);
+            default:
+                throw new UnhandledEncodingTypeException();
+        }
+    }
+
     public function binaryEncode($enc, $encoding){
         switch(strtolower($encoding)){
             case "hex":
@@ -45,6 +79,19 @@ class Encrypt{
 
     public function byteEncrypt($bytes, $key, $algorithm, $prefix, $iter){
         $enc=null;
+
+        if(strtolower($algorithm) === strtolower("CFMX_COMPAT")){
+            $cryptor = new Cryptor();
+            $enc = $cryptor->transformString($key, $bytes);
+            return $enc;
+        }else{
+            throw new UnhandledAlgorithmException();
+        }
+    }
+
+    public function byteDecrypt($bytes, $key, $algorithm, $prefix, $iter)
+    {
+        $decrypted="";
 
         if(strtolower($algorithm) === strtolower("CFMX_COMPAT")){
             $cryptor = new Cryptor();
