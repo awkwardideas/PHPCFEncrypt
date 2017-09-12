@@ -24,8 +24,7 @@ class BytesToStringTest extends TestCase
 
         $expected = [116,101,115,116,105,116];
 
-        $encrypt = new Encrypt();
-        $enc = $encrypt->byteDecrypt($bytes, $key, $algorithm, $prefix, $iter);
+        $enc = Encrypt::byteDecrypt($bytes, $key, $algorithm, $prefix, $iter);
 
         $this->assertEquals($expected, $enc);
     }

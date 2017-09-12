@@ -2,7 +2,7 @@
 namespace AwkwardIdeas\PHPCFEncrypt;
 
 class Hex{
-    public function hexToBytes($hex){
+    public static function hexToBytes($hex){
         $digits = strlen($hex) / 2;
 
         $bytes= [];
@@ -16,7 +16,7 @@ class Hex{
         return $bytes;
     }
 
-    public function bytesToHex($bytes){
+    public static function bytesToHex($bytes){
         $result="";
 
         foreach($bytes as $byte){
@@ -27,7 +27,7 @@ class Hex{
         return substr($result,0);
     }
 
-    public function isHexString($string){
+    public static function isHexString($string){
         if($string == null){
             return false;
         }
@@ -35,7 +35,7 @@ class Hex{
         return ctype_xdigit($string);
     }
 
-    public function isHexDigit($char){
+    public static function isHexDigit($char){
         return ctype_xdigit($char);
     }
 }

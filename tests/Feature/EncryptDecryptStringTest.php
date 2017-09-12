@@ -11,8 +11,7 @@ class EncryptDecryptStringTest extends TestCase
         $key = "thisisatestkey";
         $expected = "testit";
 
-        $encrypt = new Encrypt();
-        $encodedDecoded = $encrypt->decrypt($encrypt->encrypt($password, $key, "CFMX_COMPAT", "hex"), $key, "CFMX_COMPAT", "hex");
+        $encodedDecoded = Encrypt::decrypt(Encrypt::encrypt($password, $key, "CFMX_COMPAT", "hex"), $key, "CFMX_COMPAT", "hex");
 
         $this->assertEquals($expected, $encodedDecoded);
     }
@@ -22,8 +21,7 @@ class EncryptDecryptStringTest extends TestCase
         $key = "thisisatestkey";
         $expected = "testit";
 
-        $encrypt = new Encrypt();
-        $encodedDecoded = $encrypt->decrypt($encrypt->encrypt($password, $key, "CFMX_COMPAT", "hex"), $key, "CFMX_COMPAT", "hex");
+        $encodedDecoded = Encrypt::decrypt(Encrypt::encrypt($password, $key, "CFMX_COMPAT", "hex"), $key, "CFMX_COMPAT", "hex");
 
         $this->assertTrue(is_string($encodedDecoded), "Got a " . gettype($encodedDecoded) . " instead of a string" );
     }

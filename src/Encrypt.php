@@ -9,7 +9,7 @@ use AwkwardIdeas\PHPCFEncrypt\Exception\UnhandledAlgorithmException;
 use AwkwardIdeas\PHPCFEncrypt\Exception\UnhandledEncodingTypeException;
 
 class Encrypt{
-    public function encrypt($string, $key, $algorithm, $encoding, $prefix=null, $iter=0){
+    public static function encrypt($string, $key, $algorithm, $encoding, $prefix=null, $iter=0){
         $charset="UTF-8";
 
         if(strlen($string)==0){
@@ -23,13 +23,13 @@ class Encrypt{
             throw new InvalidCharacterEncodingException($e);
         }
 
-        $enc = $this->byteEncrypt($bytes, $key, $algorithm, $prefix, $iter);
+        $enc = self::byteEncrypt($bytes, $key, $algorithm, $prefix, $iter);
 
-        return $this->binaryEncode($enc, $encoding);
+        return self::binaryEncode($enc, $encoding);
 
     }
 
-    public function decrypt($string, $key, $algorithm, $encoding, $prefix=null, $iter=0){
+    public static function decrypt($string, $key, $algorithm, $encoding, $prefix=null, $iter=0){
         $charset="UTF-8";
 
         if(strlen($string)==0){
@@ -38,9 +38,9 @@ class Encrypt{
 
         try {
             iconv(mb_detect_encoding($string, mb_detect_order(), true), "UTF-8", $string);
-            $bytes = $this->binaryDecode($string, $encoding);
+            $bytes = self::binaryDecode($string, $encoding);
 
-            $bytes = $this->byteDecrypt($bytes, $key, $algorithm, $prefix, $iter);
+            $bytes = self::byteDecrypt($bytes, $key, $algorithm, $prefix, $iter);
 
             return implode(array_map("chr", $bytes));
         }
@@ -50,7 +50,7 @@ class Encrypt{
 
     }
 
-    public function binaryDecode($string, $encoding){
+    public static function binaryDecode($string, $encoding){
         switch(strtolower($encoding)){
             case "hex":
                 $hex = new Hex();
@@ -63,7 +63,7 @@ class Encrypt{
         }
     }
 
-    public function binaryEncode($enc, $encoding){
+    public static function binaryEncode($enc, $encoding){
         switch(strtolower($encoding)){
             case "hex":
                 //$chars = array_values(array_map("chr", $enc));
@@ -77,7 +77,7 @@ class Encrypt{
         }
     }
 
-    public function byteEncrypt($bytes, $key, $algorithm, $prefix, $iter){
+    public static function byteEncrypt($bytes, $key, $algorithm, $prefix, $iter){
         $enc=null;
 
         if(strtolower($algorithm) === strtolower("CFMX_COMPAT")){
@@ -89,7 +89,7 @@ class Encrypt{
         }
     }
 
-    public function byteDecrypt($bytes, $key, $algorithm, $prefix, $iter)
+    public static function byteDecrypt($bytes, $key, $algorithm, $prefix, $iter)
     {
         $decrypted="";
 

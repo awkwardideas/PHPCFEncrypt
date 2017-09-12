@@ -9,8 +9,7 @@ class BytesToHexTest extends TestCase
     public function test_bytes_to_hex(){
         $expected = "650C948E904A";
         $bytes = [101,12,-108,-114,-112,74];
-        $hex = new Hex();
-        $result = $hex->bytesToHex($bytes);
+        $result = Hex::bytesToHex($bytes);
 
         $this->assertEquals($expected, $result);
     }
