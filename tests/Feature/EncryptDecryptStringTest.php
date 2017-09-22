@@ -9,17 +9,15 @@ class EncryptDecryptStringTest extends TestCase
     public function test_encrypted_string_decrypted_matches_origin(){
         $password = "testit";
         $key = "thisisatestkey";
-        $expected = "testit";
 
         $encodedDecoded = Encrypt::decrypt(Encrypt::encrypt($password, $key, "CFMX_COMPAT", "hex"), $key, "CFMX_COMPAT", "hex");
 
-        $this->assertEquals($expected, $encodedDecoded);
+        $this->assertEquals($password, $encodedDecoded);
     }
 
     public function test_encrypt_decrypt_returns_string(){
         $password = "testit";
         $key = "thisisatestkey";
-        $expected = "testit";
 
         $encodedDecoded = Encrypt::decrypt(Encrypt::encrypt($password, $key, "CFMX_COMPAT", "hex"), $key, "CFMX_COMPAT", "hex");
 
