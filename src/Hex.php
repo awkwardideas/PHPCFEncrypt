@@ -1,6 +1,8 @@
 <?php
 namespace AwkwardIdeas\PHPCFEncrypt;
 
+use AwkwardIdeas\PHPCFEncrypt\BitwiseOperators as Bit;
+
 class Hex{
     public static function hexToBytes($hex){
         $digits = strlen($hex) / 2;
@@ -20,8 +22,8 @@ class Hex{
         $result="";
 
         foreach($bytes as $byte){
-            $firstDigit = ($byte >> 4) & 0xF;
-            $secondDigit = $byte & 0xF;
+            $firstDigit = Bit::And(Bit::ShiftRight($byte, 4), 0xF);
+            $secondDigit = Bit::And($byte, 0xF);
             $result .= strtoupper(dechex($firstDigit)) . strtoupper(dechex($secondDigit));
         }
         return substr($result,0);

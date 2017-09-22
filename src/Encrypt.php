@@ -37,7 +37,7 @@ class Encrypt{
         }
 
         try {
-            iconv(mb_detect_encoding($string, mb_detect_order(), true), "UTF-8", $string);
+            //iconv(mb_detect_encoding($string, mb_detect_order(), true), "UTF-8", $string);
             $bytes = self::binaryDecode($string, $encoding);
 
             $bytes = self::byteDecrypt($bytes, $key, $algorithm, $prefix, $iter);
