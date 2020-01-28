@@ -7,8 +7,8 @@ use PHPUnit\Framework\TestCase;
 class DecryptStringTest extends TestCase
 {
     public function test_encrypted_string_matches_coldfusion_encryption(){
-        $password = "588081DFB092";
-        $key = "pipelinesuite`1";
+        $password = "650C948E904A";
+        $key = "thisisatestkey";
         $expected = "testit";
 
         $encoded = Encrypt::decrypt($password, $key, "CFMX_COMPAT", "hex");
