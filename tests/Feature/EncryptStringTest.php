@@ -25,4 +25,14 @@ class EncryptStringTest extends TestCase
 
         $this->assertTrue(is_string($encoded), "Got a " . gettype($encoded) . " instead of a string" );
     }
+
+    public function test_encrypted_string_matches_coldfusion_rc4_encryption(){
+        $password = "testit";
+        $key = base64_encode("thisisatestkey");
+        $expected = "+KZI2TEY";
+
+        $encoded = Encrypt::encrypt($password, $key, "RC4", "Base64");
+
+        $this->assertEquals($expected, $encoded);
+    }
 }

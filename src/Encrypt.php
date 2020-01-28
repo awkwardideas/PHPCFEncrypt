@@ -7,6 +7,7 @@ use AwkwardIdeas\PHPCFEncrypt\Exception\InvalidCharacterEncodingException;
 use AwkwardIdeas\PHPCFEncrypt\Exception\InvalidEncryptionValException;
 use AwkwardIdeas\PHPCFEncrypt\Exception\UnhandledAlgorithmException;
 use AwkwardIdeas\PHPCFEncrypt\Exception\UnhandledEncodingTypeException;
+use phpseclib\Crypt\RC4;
 
 class Encrypt{
     public static function encrypt($string, $key, $algorithm, $encoding, $prefix=null, $iter=0){
@@ -80,12 +81,19 @@ class Encrypt{
     public static function byteEncrypt($bytes, $key, $algorithm, $prefix, $iter){
         $enc=null;
 
-        if(strtolower($algorithm) === strtolower("CFMX_COMPAT")){
-            $cryptor = new Cryptor();
-            $enc = $cryptor->transformString($key, $bytes);
-            return $enc;
-        }else{
-            throw new UnhandledAlgorithmException();
+        switch(strtolower($algorithm)){
+            case "cfmx_compat":
+                $cryptor = new Cryptor();
+                $enc = $cryptor->transformString($key, $bytes);
+                return $enc;
+            case "rc4":
+                $rc4 = new RC4();
+                $rc4->setKey(base64_decode($key));
+                $string = call_user_func_array("pack", array_merge(array("C*"), $bytes));
+                $enc = $rc4->encrypt($string);
+                return $enc;
+            default:
+                throw new UnhandledAlgorithmException();
         }
     }
 
@@ -93,12 +101,19 @@ class Encrypt{
     {
         $decrypted="";
 
-        if(strtolower($algorithm) === strtolower("CFMX_COMPAT")){
-            $cryptor = new Cryptor();
-            $enc = $cryptor->transformString($key, $bytes);
-            return $enc;
-        }else{
-            throw new UnhandledAlgorithmException();
+        switch(strtolower($algorithm)){
+            case "cfmx_compat":
+                $cryptor = new Cryptor();
+                $enc = $cryptor->transformString($key, $bytes);
+                return $enc;
+            case "rc4":
+                $rc4 = new RC4();
+                $rc4->setKey(base64_decode($key));
+                $string = call_user_func_array("pack", array_merge(array("C*"), $bytes));
+                $enc = $rc4->decrypt($string);
+                return $enc;
+            default:
+                throw new UnhandledAlgorithmException();
         }
     }
 }
