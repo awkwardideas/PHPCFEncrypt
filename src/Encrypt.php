@@ -7,7 +7,7 @@ use AwkwardIdeas\PHPCFEncrypt\Exception\InvalidCharacterEncodingException;
 use AwkwardIdeas\PHPCFEncrypt\Exception\InvalidEncryptionValException;
 use AwkwardIdeas\PHPCFEncrypt\Exception\UnhandledAlgorithmException;
 use AwkwardIdeas\PHPCFEncrypt\Exception\UnhandledEncodingTypeException;
-use phpseclib\Crypt\RC4;
+use phpseclib3\Crypt\RC4;
 
 class Encrypt{
     public static function encrypt($string, $key, $algorithm, $encoding, $prefix=null, $iter=0){
