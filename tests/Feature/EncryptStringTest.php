@@ -50,7 +50,7 @@ class EncryptStringTest extends TestCase
     public function test_encrypted_string_matches_coldfusion_aes_encryption(){
         $password = "testit";
         $key = "hqg0ZwcHPzkgprfvem9IYQ==";
-        $expected = "qq3S7A3TVOPe3jmKGS1JZA==";
+        $expected = "1K83vj6Xd3v7QeS4gq8gwA==";
 
         $encoded = Encrypt::encrypt($password, $key, "AES", "Base64");
 

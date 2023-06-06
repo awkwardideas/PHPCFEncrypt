@@ -8,6 +8,7 @@ use AwkwardIdeas\PHPCFEncrypt\Exception\InvalidEncryptionValException;
 use AwkwardIdeas\PHPCFEncrypt\Exception\UnhandledAlgorithmException;
 use AwkwardIdeas\PHPCFEncrypt\Exception\UnhandledEncodingTypeException;
 use phpseclib3\Crypt\RC4;
+use phpseclib3\Crypt\AES;
 
 class Encrypt{
     public static function encrypt($string, $key, $algorithm, $encoding, $prefix=null, $iter=0){
@@ -91,6 +92,12 @@ class Encrypt{
                 $rc4->setKey(base64_decode($key));
                 $string = call_user_func_array("pack", array_merge(array("C*"), $bytes));
                 $enc = $rc4->encrypt($string);
+                return $enc;
+            case "aes":
+                $aes = new AES('ecb');
+                $aes->setKey(base64_decode($key));
+                $string = call_user_func_array("pack", array_merge(array("C*"), $bytes));
+                $enc = $aes->encrypt($string);
                 return $enc;
             default:
                 throw new UnhandledAlgorithmException();
