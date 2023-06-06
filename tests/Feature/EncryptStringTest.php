@@ -35,4 +35,36 @@ class EncryptStringTest extends TestCase
 
         $this->assertEquals($expected, $encoded);
     }
+
+    public function test_encrypted_rc4_encryption(){
+        $password = "1041789.33333";
+        $key = "Pv9rW1FoIp6gjvXHI/jETw==";
+        $expected = "Myc5hV0/g2phUxEIZg==";
+
+        $encoded = Encrypt::encrypt($password, $key, "RC4", "Base64");
+        echo $encoded;
+        die;
+        $this->assertEquals($expected, $encoded);
+    }
+
+    public function test_encrypted_string_matches_coldfusion_aes_encryption(){
+        $password = "testit";
+        $key = "hqg0ZwcHPzkgprfvem9IYQ==";
+        $expected = "qq3S7A3TVOPe3jmKGS1JZA==";
+
+        $encoded = Encrypt::encrypt($password, $key, "AES", "Base64");
+
+        $this->assertEquals($expected, $encoded);
+    }
+
+    public function test_encrypted_aes_encryption(){
+        $password = "1041789.33333";
+        $key = "hqg0ZwcHPzkgprfvem9IYQ==";
+        $expected = "Myc5hV0/g2phUxEIZg==";
+
+        $encoded = Encrypt::encrypt($password, $key, "AES", "Base64");
+        echo $encoded;
+        die;
+        $this->assertEquals($expected, $encoded);
+    }
 }
