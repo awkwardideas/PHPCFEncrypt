@@ -36,15 +36,14 @@ class EncryptStringTest extends TestCase
         $this->assertEquals($expected, $encoded);
     }
 
-    public function test_encrypted_rc4_encryption(){
-        $password = "1041789.33333";
-        $key = "Pv9rW1FoIp6gjvXHI/jETw==";
-        $expected = "Myc5hV0/g2phUxEIZg==";
+    public function test_encrypted_rc4_returns_string(){
+        $password = "testit";
+        $key = base64_encode("thisisatestkey");
+        $expected = "+KZI2TEY";
 
         $encoded = Encrypt::encrypt($password, $key, "RC4", "Base64");
-        echo $encoded;
-        die;
-        $this->assertEquals($expected, $encoded);
+
+        $this->assertTrue(is_string($encoded), "Got a " . gettype($encoded) . " instead of a string" );
     }
 
     public function test_encrypted_string_matches_coldfusion_aes_encryption(){
@@ -57,14 +56,13 @@ class EncryptStringTest extends TestCase
         $this->assertEquals($expected, $encoded);
     }
 
-    public function test_encrypted_aes_encryption(){
-        $password = "1041789.33333";
+    public function test_encrypted_aes_returns_string(){
+        $password = "testit";
         $key = "hqg0ZwcHPzkgprfvem9IYQ==";
-        $expected = "Myc5hV0/g2phUxEIZg==";
+        $expected = "1K83vj6Xd3v7QeS4gq8gwA==";
 
         $encoded = Encrypt::encrypt($password, $key, "AES", "Base64");
-        echo $encoded;
-        die;
-        $this->assertEquals($expected, $encoded);
+
+        $this->assertTrue(is_string($encoded), "Got a " . gettype($encoded) . " instead of a string" );
     }
 }

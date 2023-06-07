@@ -41,10 +41,13 @@ class Encrypt{
         try {
             //iconv(mb_detect_encoding($string, mb_detect_order(), true), "UTF-8", $string);
             $bytes = self::binaryDecode($string, $encoding);
-
             $bytes = self::byteDecrypt($bytes, $key, $algorithm, $prefix, $iter);
 
-            return implode(array_map("chr", $bytes));
+            if(is_string($bytes)){
+                return $bytes;
+            }else{
+                return implode(array_map("chr", $bytes));
+            }
         }
         catch(Exception $e){
             throw new InvalidCharacterEncodingException($e);
@@ -59,7 +62,8 @@ class Encrypt{
                 return $hex->hexToBytes($string);
                 break;
             case "base64":
-                return base64_decode($string);
+                $base64 = base64_decode($string);
+                return unpack('C*', $base64);
             default:
                 throw new UnhandledEncodingTypeException();
         }
@@ -106,21 +110,36 @@ class Encrypt{
 
     public static function byteDecrypt($bytes, $key, $algorithm, $prefix, $iter)
     {
-        $decrypted="";
+        $decrypted=null;
 
         switch(strtolower($algorithm)){
             case "cfmx_compat":
                 $cryptor = new Cryptor();
-                $enc = $cryptor->transformString($key, $bytes);
-                return $enc;
+                $decrypted = $cryptor->transformString($key, $bytes);
+                return $decrypted;
             case "rc4":
                 $rc4 = new RC4();
                 $rc4->setKey(base64_decode($key));
                 $string = call_user_func_array("pack", array_merge(array("C*"), $bytes));
-                $enc = $rc4->decrypt($string);
-                return $enc;
+                $decrypted = $rc4->decrypt($string);
+                return $decrypted;
+            case "aes":
+                $aes = new AES('ecb');
+                $aes->setKey(base64_decode($key));
+                $string = call_user_func_array("pack", array_merge(array("C*"), $bytes));
+                $decrypted = $aes->decrypt($string);
+                return $decrypted;
             default:
                 throw new UnhandledAlgorithmException();
         }
+    }
+
+    public static function stringToBytes($string){
+        $bytes = array();
+
+        foreach(str_split($string) as $char){
+            $bytes[] = sprintf("%08b", ord($char));
+        }
+        return $bytes;
     }
 }
